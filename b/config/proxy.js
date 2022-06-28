@@ -28,7 +28,7 @@ export default {
   },
   pre: {
     '/api/': {
-      target: 'your pre url',
+      target: 'https://api.shop.eduwork.cn',
       changeOrigin: true,
       pathRewrite: {
         '^': '',
