@@ -29,29 +29,38 @@ const LoginMessage = ({content}) => (
 const Login = () => {
   const [userLoginState, setUserLoginState] = useState({});
   const [type, setType] = useState('account');
-  const {initialState, setInitialState} = useModel('@@initialState');
+  const {setInitialState} = useModel('@@initialState');
   const intl = useIntl();
 
-  const fetchUserInfo = async () => {
-    const userInfo = await initialState?.fetchUserInfo?.();
-
-    if (userInfo) {
-      await setInitialState((s) => ({...s, currentUser: userInfo}));
-    }
-  };
+  // const fetchUserInfo = async () => {
+  //   const userInfo = await initialState?.fetchUserInfo?.();
+  //
+  //   if (userInfo) {
+  //     await setInitialState((s) => ({...s, currentUser: userInfo}));
+  //   }
+  // };
 
   const handleSubmit = async (values) => {
     try {
+      const {email, password} = values
       // 登录
-      const msg = await login({...values, type});
+      const msg = await login({email, password});
 
-      if (msg.status === 'ok') {
+      if (msg) {
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',
         });
         message.success(defaultLoginSuccessMessage);
-        await fetchUserInfo();
+        // await fetchUserInfo();
+        //{
+        //     "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkudGVzdFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYwNzUyMDE0MSwiZXhwIjoxNjA3NTIzNzQxLCJuYmYiOjE2MDc1MjAxNDEsImp0aSI6IktVdWFsTmxnOXYzZmlTZHEiLCJzdWIiOjMsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.BpVdvBjKEhQ2aIZBfkE-SoU2a3UeFkYCKQKh42Ncbio",
+        //     "token_type": "Bearer",
+        //     "expires_in": 3600
+        // }
+        const c = {...msg, name: email, avatar: '', unreadCount: '', access: 'admin'}
+        localStorage.setItem("currentUser", JSON.stringify(c))
+        await setInitialState((s) => ({...s, currentUser: c}));
         /** 此方法会跳转到 redirect 参数所在的位置 */
 
         if (!history) return;
@@ -65,6 +74,7 @@ const Login = () => {
 
       setUserLoginState(msg);
     } catch (error) {
+      console.log(error)
       const defaultLoginFailureMessage = intl.formatMessage({
         id: 'pages.login.failure',
         defaultMessage: '登录失败，请重试！',
@@ -76,7 +86,7 @@ const Login = () => {
   const {status, type: loginType} = userLoginState;
   return (
     <div className={styles.container}>
-      <div className={styles.lang} data-lang>
+      <div className={styles.lang} data-lang="">
         {SelectLang && <SelectLang/>}
       </div>
       <div className={styles.content}>

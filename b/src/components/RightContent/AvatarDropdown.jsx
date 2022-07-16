@@ -34,6 +34,7 @@ const AvatarDropdown = ({ menu }) => {
       if (key === 'logout') {
         setInitialState((s) => ({ ...s, currentUser: undefined }));
         loginOut();
+        localStorage.removeItem("currentUser");
         return;
       }
 

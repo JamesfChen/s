@@ -5,8 +5,6 @@ import {request} from 'umi';
  * @param body
  * email  是  string  邮箱
  * password  是  string  密码
- * @param options
- *
  * @returns {Promise<*>}
  *
  * access_token  是  string  token
@@ -26,7 +24,7 @@ export async function login(body) {
  * 状态码 204 请求成功
  */
 export async function logout(token) {
-  return request("//api/auth/logout", {method: "POST"});
+  return request("/api/auth/logout", {method: "POST"});
 }
 
 //user start
@@ -48,7 +46,7 @@ export async function logout(token) {
  * 状态码 422 参数错误
  */
 export async function register(body, options) {
-  return request("//api/auth/register", {
+  return request("/api/auth/register", {
     method: "POST", headers: {"Content-Type": "application/json",}, data: body, ...(options || {})
   });
 }
@@ -63,7 +61,7 @@ export async function register(body, options) {
  * expires_in  是  int  过期时间
  */
 export async function refreshToken(token) {
-  return request("//api/auth/refresh", {method: "POST",});
+  return request("/api/auth/refresh", {method: "POST",});
 }
 
 /**
@@ -81,11 +79,10 @@ export async function refreshToken(token) {
  * dir  是  string  dir
  */
 export async function getOssToken(token) {
-  return request("//api/auth/oss/token", {method: "GET",});
+  return request("/api/auth/oss/token", {method: "GET",});
 }
 
 /**
- * @param token
  * Authorization  是  string  JWT token
  * @param body
  * old_password  是  string  旧密码
@@ -95,28 +92,25 @@ export async function getOssToken(token) {
  * @returns {Promise<*>}
  */
 export async function updatePassword(body, options) {
-  return request("//api/auth/password/update", {
+  return request("/api/auth/password/update", {
     method: "POST", headers: {"Content-Type": "application/json"}, data: body, ...(options || {})
   });
 }
 
 /**
- * @param token
  * Authorization  是  string  JWT token
  * code  是  string  邮箱收到的验证码
  * email  是  string  邮箱
- * @param options
  * @returns {Promise<*>}
  */
 export async function updateEmail(body) {
-  return request("//api/auth/email/update", {
+  return request("/api/auth/email/update", {
     method: "POST", headers: {"Content-Type": "application/json"}, data: body
   });
 }
 
 /**
  *
- * @param token
  * Authorization  是  string  JWT token
  * @param body
  * code  是  string  手机收到的验证码
@@ -124,55 +118,51 @@ export async function updateEmail(body) {
  * @returns {Promise<*>}
  */
 export async function updatePhone(body) {
-  return request("//api/auth/phone/update", {
+  return request("/api/auth/phone/update", {
     method: "POST", headers: {"Content-Type": "application/json"}, data: body
   });
 }
 
 /**
  *
- * @param token
  * Authorization  是  string  JWT token
  * @param body
  * email  是  string  邮箱
  * @returns {Promise<*>}
  */
 export async function getEmailCodeOnUpdatingEmail(body) {
-  return request("//api/auth/email/code", {
+  return request("/api/auth/email/code", {
     method: "POST", headers: {"Content-Type": "application/json"}, data: body
   });
 }
 
 /**
  *
- * @param token
  * Authorization  是  string  JWT token
  * @param body
  * phone  是  string  手机号
  * @returns {Promise<*>}
  */
 export async function getPhoneCodeOnUpdatingPhone(body) {
-  return request("//api/auth/phone/code", {
+  return request("/api/auth/phone/code", {
     method: "POST", headers: {"Content-Type": "application/json"}, data: body
   });
 }
 
 /**
  * 找回密码
- * @param token
  * Authorization  是  string  JWT token
  * @param body
  * email  是  string  邮箱
  * @returns {Promise<*>}
  */
 export async function sendEmailCodeOnFindingEmail(body) {
-  return request("//api/auth/reset/password/email/code", {
+  return request("/api/auth/reset/password/email/code", {
     method: "POST", headers: {"Content-Type": "application/json"}, data: body
   });
 }
 
 /**
- * @param token
  * Authorization  是  string  JWT token
  * @param body
  * code  是  string  邮箱收到的验证码
@@ -182,7 +172,7 @@ export async function sendEmailCodeOnFindingEmail(body) {
  * @returns {Promise<*>}
  */
 export async function verifyOnFindingEmail(body) {
-  return request("//api/auth/reset/password/email", {
+  return request("/api/auth/reset/password/email", {
     method: "POST", headers: {"Content-Type": "application/json"}, data: body
   });
 }
